@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Bookmark, Heart, User, Settings, X } from "lucide-react";
 import { toast } from "sonner";
 import { getUserDisplayName } from "@/lib/auth";
+import Image from "next/image";
 
 export default function DashboardPage() {
   const { user } = useAuth();

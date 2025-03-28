@@ -86,8 +86,9 @@ const MovieDetailsPage = () => {
             .eq("movie_id", id)
         ]);
 
-        setIsFavorite(favoriteData?.length > 0);
-        setIsBookmarked(bookmarkData?.length > 0);
+        setIsFavorite(favoriteData ? favoriteData.length > 0 : false);
+        setIsBookmarked(bookmarkData ? bookmarkData.length > 0 : false);
+        
       } catch (error) {
         console.error("Error checking favorites/bookmarks:", error);
       }
