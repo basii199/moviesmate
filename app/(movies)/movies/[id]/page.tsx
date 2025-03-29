@@ -101,7 +101,7 @@ const MovieDetailsPage = () => {
   const toggleFavorite = async () => {
     if (!user) {
       toast.warning("Please sign in to add favorites");
-      return router.push("/login");
+      return router.push("/sign-in");
     }
 
     try {
@@ -127,7 +127,7 @@ const MovieDetailsPage = () => {
   const toggleBookmark = async () => {
     if (!user) {
       toast.warning("Please sign in to bookmark movies");
-      return router.push("/login");
+      return router.push("/sign-in");
     }
 
     try {

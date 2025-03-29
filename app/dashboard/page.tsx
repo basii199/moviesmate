@@ -82,7 +82,7 @@ export default function DashboardPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4">
         <h2 className="text-2xl font-bold mb-4">Please sign in to access your dashboard</h2>
-        <Button onClick={() => window.location.href = "/login"}>Sign In</Button>
+        <Button onClick={() => window.location.href = "/sign-in"}>Sign In</Button>
       </div>
     );
   }

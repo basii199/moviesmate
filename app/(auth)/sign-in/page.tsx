@@ -8,6 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
+import { useSearchParams } from 'next/navigation'
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -22,6 +23,8 @@ export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const { signIn } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect') || '/dashboard'
 
   const {
     register,
@@ -38,9 +41,8 @@ export default function SignInPage() {
     
     try {
       await signIn(data.email, data.password);
-      router.push("/");
+      router.push(redirectTo);
     } catch (err: any) {
-      // Firebase errors have a code property
       const errorCode = err.code || "";
       handleAuthError(errorCode);
     } finally {
@@ -62,7 +64,6 @@ export default function SignInPage() {
     
     setError(friendlyError);
     
-    // Highlight fields based on error
     if (errorCode.includes('password')) {
       setFormError("password", { type: "manual", message: friendlyError });
     } else if (errorCode.includes('email') || errorCode.includes('user')) {
@@ -77,7 +78,6 @@ export default function SignInPage() {
           Welcome Back
         </h2>
         
-        {/* Error Message */}
         {error && (
           <div className="mb-4 p-3 bg-red-900/30 border border-red-700 rounded-lg">
             <p className="text-red-300 text-sm flex items-center gap-2">
@@ -90,7 +90,6 @@ export default function SignInPage() {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          {/* Email Field */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
               Email
@@ -109,7 +108,6 @@ export default function SignInPage() {
             )}
           </div>
 
-          {/* Password Field */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
               Password
@@ -137,7 +135,6 @@ export default function SignInPage() {
             )}
           </div>
 
-          {/* Forgot Password Link */}
           <div className="flex justify-end">
             <Link 
               href="/forgot-password" 
@@ -147,7 +144,6 @@ export default function SignInPage() {
             </Link>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
@@ -167,7 +163,6 @@ export default function SignInPage() {
           </button>
         </form>
 
-        {/* Sign Up Link */}
         <p className="mt-6 text-center text-sm text-gray-400">
           Don't have an account?{" "}
           <Link href="/signup" className="text-red-400 hover:text-red-300 font-medium">
