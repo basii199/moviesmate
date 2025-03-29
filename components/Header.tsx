@@ -43,7 +43,6 @@ const Header = () => {
   return (
     <>
       <header className="w-full fixed top-0 z-50 h-20 bg-gray-900 bg-opacity-90 backdrop-blur-md shadow-lg flex items-center justify-between px-4 sm:px-6 lg:px-8 border-b border-gray-800">
-        {/* Logo */}
         <div className="flex items-center">
           <button 
             className="mr-4 lg:hidden text-gray-300 hover:text-white"
@@ -56,7 +55,6 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
         <nav className="hidden lg:flex gap-6 text-lg font-semibold mx-4">
           {navLinks.map((link) => (
             <Link 
@@ -71,9 +69,7 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Search and Auth */}
         <div className="flex items-center gap-4">
-          {/* Search Button (Mobile) */}
           <button 
             className="lg:hidden text-gray-300 hover:text-white"
             onClick={() => setSearchOpen(!searchOpen)}
@@ -81,7 +77,6 @@ const Header = () => {
             <Search size={24} />
           </button>
 
-          {/* Search Bar (Desktop) */}
           <form 
             onSubmit={handleSearch}
             className="hidden lg:flex items-center relative"
@@ -101,7 +96,6 @@ const Header = () => {
             </button>
           </form>
 
-          {/* Mobile Search Bar */}
           {searchOpen && (
             <form 
               onSubmit={handleSearch}
@@ -125,7 +119,6 @@ const Header = () => {
             </form>
           )}
 
-          {/* Auth Section */}
           {!user ? (
             <div className="flex gap-3">
               <Link 
@@ -172,7 +165,6 @@ const Header = () => {
           )}
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="fixed top-20 left-0 w-64 bg-gray-900 z-40 lg:hidden border-r border-gray-800">
             <nav className="flex flex-col p-4 space-y-4">

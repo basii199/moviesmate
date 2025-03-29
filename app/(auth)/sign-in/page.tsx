@@ -57,7 +57,7 @@ export default function SignInPage() {
       "auth/wrong-password": "Incorrect password",
       "auth/too-many-requests": "Account temporarily locked due to too many attempts",
       "auth/user-disabled": "This account has been disabled",
-      "": "An unexpected error occurred" // default
+      "": "An unexpected error occurred" 
     };
   
     const friendlyError = errorMessages[errorCode] || errorMessages[""];
@@ -165,7 +165,7 @@ export default function SignInPage() {
 
         <p className="mt-6 text-center text-sm text-gray-400">
           Don't have an account?{" "}
-          <Link href="/signup" className="text-red-400 hover:text-red-300 font-medium">
+          <Link href="/sig-nup" className="text-red-400 hover:text-red-300 font-medium">
             Sign Up
           </Link>
         </p>

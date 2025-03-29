@@ -16,13 +16,11 @@ export const fetchMovies = async (endpoint: string, queryParams = "") => {
   }
 };
 
-// lib/tmdb.ts
 export const fetchMoviesFull = async (
   endpoint: "popular" | "top_rated" | "trending",
   page: number = 1
 ) => {
   try {
-    // Build the correct endpoint path
     const path = endpoint === "trending" 
       ? "/trending/movie/day" 
       : `/movie/${endpoint}`;
@@ -37,7 +35,6 @@ export const fetchMoviesFull = async (
     
     const data = await response.json();
     
-    // TMDB limits pages to 500 for most endpoints
     if (data.total_pages > 500) {
       data.total_pages = 500;
     }
@@ -45,7 +42,7 @@ export const fetchMoviesFull = async (
     return data;
   } catch (error) {
     console.error(`Error fetching ${endpoint} movies:`, error);
-    return null; // Consistent with your fetchMovies error handling
+    return null;
   }
 };
 

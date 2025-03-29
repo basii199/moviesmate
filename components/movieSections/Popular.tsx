@@ -27,7 +27,6 @@ const PopularMovies = () => {
   return (
     <section className="bg-[#0b0f17] py-8 sm:py-12 px-4 sm:px-6 border-t border-gray-800">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
         <div className="flex items-center justify-between mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-white">
             Popular <span className="text-red-500">Movies</span>
@@ -40,7 +39,6 @@ const PopularMovies = () => {
           </a>
         </div>
 
-        {/* Movies Grid */}
         {loading ? (
           <div className="flex gap-3 overflow-hidden">
             {[...Array(5)].map((_, i) => (

@@ -1,4 +1,3 @@
-// app/popular/page.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -17,7 +16,7 @@ export default function PopularMoviesPage() {
       try {
         const data = await fetchMoviesFull("popular", currentPage);
         setMovies(data.results);
-        setTotalPages(data.total_pages > 500 ? 500 : data.total_pages); // TMDB limits to 500 pages
+        setTotalPages(data.total_pages > 500 ? 500 : data.total_pages);
       } catch (error) {
         console.error("Failed to load movies:", error);
       } finally {

@@ -27,7 +27,6 @@ const TopRatedMovies = () => {
   return (
     <section className="bg-gray-900 py-8 sm:py-12 px-4 sm:px-6 border-t border-gray-800">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
         <div className="flex items-center justify-between mb-6 sm:mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold text-white">
             Top Rated <span className="text-red-500">Movies</span>
@@ -40,7 +39,6 @@ const TopRatedMovies = () => {
           </a>
         </div>
 
-        {/* Movies Grid */}
         {loading ? (
           <div className="flex gap-3 overflow-hidden">
             {[...Array(5)].map((_, i) => (
@@ -56,7 +54,7 @@ const TopRatedMovies = () => {
               {movies.map((movie) => (
                 <div 
                   key={movie.id}
-                  className="flex-none w-[120px] sm:w-[150px] md:w-[180px]" // Strict width control
+                  className="flex-none w-[120px] sm:w-[150px] md:w-[180px]"
                 >
                   <MovieCard movie={movie} />
                 </div>

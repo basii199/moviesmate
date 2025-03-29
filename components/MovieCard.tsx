@@ -17,7 +17,7 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, className = "" }) => {
   const imageUrl = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w342${movie.poster_path}` // Smaller image size
+    ? `https://image.tmdb.org/t/p/w342${movie.poster_path}` 
     : "/no-poster.jpg";
 
   return (
@@ -25,18 +25,16 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, className = "" }) => {
       href={`/movies/${movie.id}`}
       className={`${className} group relative block aspect-[2/3] overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:z-10 hover:shadow-xl hover:shadow-red-900/30`}
     >
-      {/* Movie Poster with optimized sizes */}
       <Image
         src={imageUrl}
         alt={movie.title}
-        width={342} // Matches w342 above
-        height={513} // 342 * 1.5 (2:3 ratio)
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" // Reduced scale effect
+        width={342} 
+        height={513} 
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" 
         sizes="(max-width: 640px) 150px, (max-width: 768px) 180px, 220px"
         unoptimized
       />
 
-      {/* Overlay - Only shows on larger screens */}
       <div className="hidden sm:block absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <div className="absolute bottom-0 left-0 right-0 p-3">
           <h3 className="mb-1 line-clamp-2 text-sm md:text-base font-bold text-white">
@@ -65,7 +63,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, className = "" }) => {
   );
 };
 
-// Simple star icon component
 const StarIcon = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -82,41 +79,3 @@ const StarIcon = ({ className }: { className?: string }) => (
 );
 
 export default MovieCard;
-
-/* "use client";
-
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-
-interface MovieCardProps {
-  movie: {
-    id: number;
-    title: string;
-    poster_path: string;
-  };
-}
-
-const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
-  const imageUrl = movie.poster_path
-    ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-    : "/placeholder.jpg";
-
-  return (
-    <Link href={`/home/${movie.id}`} className="block bg-white shadow-lg rounded-lg overflow-hidden">
-      <Image
-        src={imageUrl}
-        alt={movie.title}
-        width={500}
-        height={750}
-        className="w-full h-auto"
-      />
-      <div className="p-4">
-        <h2 className="text-lg font-semibold truncate">{movie.title}</h2>
-      </div>
-    </Link>
-  );
-};
-
-export default MovieCard;
- */

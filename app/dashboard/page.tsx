@@ -26,7 +26,6 @@ export default function DashboardPage() {
       try {
         setLoading(true);
         
-        // Fetch user profile
         const { data: profileData } = await supabase
           .from("profiles")
           .select("*")
@@ -35,7 +34,6 @@ export default function DashboardPage() {
 
         setProfile(profileData);
 
-        // Fetch movies based on active tab
         const { data } = await supabase
           .from(activeTab === "favorites" ? "favorites" : "bookmarks")
           .select("movie_data")
@@ -90,7 +88,6 @@ export default function DashboardPage() {
   return (
     <div className="bg-gray-900 min-h-screen text-white">
       <div className="container max-w-7xl mx-auto py-8 px-4">
-        {/* Profile Header */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
           <div className="relative size-24 rounded-full bg-gray-800 flex items-center justify-center">
             {profile?.avatar_url ? (
@@ -115,7 +112,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Tabs */}
         <div className="flex border-b border-gray-800 mb-8">
           <button
             className={`px-6 py-3 font-medium flex items-center gap-2 ${activeTab === "favorites" ? "text-red-500 border-b-2 border-red-500" : "text-gray-400 hover:text-white"}`}
@@ -133,7 +129,6 @@ export default function DashboardPage() {
           </button>
         </div>
 
-        {/* Movie Grid */}
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
             {[...Array(8)].map((_, i) => (
@@ -169,89 +164,4 @@ export default function DashboardPage() {
       </div>
     </div>
   );
-}/*
-
-'use client';
-
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { supabase } from '@/lib/supabase';
-import MovieCard from '@/components/MovieCard';
-
-const Dashboard = () => {
-  const { user } = useAuth();
-  const [bookmarkedMovies, setBookmarkedMovies] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!user) return;
-    
-    const fetchMovies = async () => {
-      setLoading(true);
-      const { data: bookmarks, error: bookmarkError } = await supabase
-        .from('bookmarks')
-        .select('movieId')
-        .eq('userId', user.id);
-
-      const { data: favorites, error: favoriteError } = await supabase
-        .from('favorites')
-        .select('movieId')
-        .eq('userId', user.id);
-
-      if (bookmarkError || favoriteError) {
-        console.error('Error fetching data:', bookmarkError || favoriteError);
-      }
-      
-      setBookmarkedMovies(bookmarks?.map(b => b.movieId) || []);
-      setFavoriteMovies(favorites?.map(f => f.movieId) || []);
-      setLoading(false);
-    };
-
-    fetchMovies();
-  }, [user]);
-
-  const handleRemove = async (movieId, type) => {
-    const table = type === 'bookmark' ? 'bookmarks' : 'favorites';
-    await supabase.from(table).delete().eq('userId', user.id).eq('movieId', movieId);
-    
-    if (type === 'bookmark') {
-      setBookmarkedMovies(prev => prev.filter(id => id !== movieId));
-    } else {
-      setFavoriteMovies(prev => prev.filter(id => id !== movieId));
-    }
-  };
-
-  if (loading) return <p>Loading...</p>;
-
-  return (
-    <div className='p-4'>
-      <h1 className='text-2xl font-bold mb-4'>Dashboard</h1>
-      
-      <section>
-        <h2 className='text-xl font-semibold'>Bookmarked Movies</h2>
-        {bookmarkedMovies.length > 0 ? (
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
-            {bookmarkedMovies.map(id => (
-              <MovieCard key={id} movieId={id} onRemove={() => handleRemove(id, 'bookmark')} />
-            ))}
-          </div>
-        ) : <p>No bookmarked movies.</p>}
-      </section>
-
-      <section className='mt-6'>
-        <h2 className='text-xl font-semibold'>Favorite Movies</h2>
-        {favoriteMovies.length > 0 ? (
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
-            {favoriteMovies.map(id => (
-              <MovieCard key={id} movieId={id} onRemove={() => handleRemove(id, 'favorite')} />
-            ))}
-          </div>
-        ) : <p>No favorite movies.</p>}
-      </section>
-    </div>
-  );
-};
-
-export default Dashboard;
- */
+}

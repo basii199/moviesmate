@@ -1,4 +1,3 @@
-// components/MovieGrid.tsx
 "use client";
 
 import  MovieCard from "@/components/MovieCard";
@@ -31,7 +30,6 @@ export const MovieGrid = ({
             {title} <span className="text-red-500">Movies</span>
           </h2>
           
-          {/* Pagination Controls */}
           <div className="flex items-center gap-2">
             <Button
               variant="outline"

@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 
-// Password requirements schema
 const formSchema = z.object({
   displayName: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -50,7 +49,7 @@ const SignUp = () => {
     
     try {
       await signUp(data.email, data.password, data.displayName);
-      router.push("/"); // Redirect to home after signup
+      router.push("/");
     } catch (err) {
       setError("Failed to create account. Please try again.");
     } finally {
@@ -72,7 +71,6 @@ const SignUp = () => {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          {/* Display Name */}
           <div>
             <label htmlFor="displayName" className="block text-sm font-medium text-gray-300 mb-1">
               Display Name
@@ -89,7 +87,6 @@ const SignUp = () => {
             )}
           </div>
 
-          {/* Email */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
               Email
@@ -106,7 +103,6 @@ const SignUp = () => {
             )}
           </div>
 
-          {/* Password */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
               Password
@@ -131,7 +127,6 @@ const SignUp = () => {
               <p className="mt-1 text-sm text-red-400">{errors.password.message}</p>
             )}
             
-            {/* Password Requirements */}
             <div className="mt-2 text-xs text-gray-400">
               <p>Password must contain:</p>
               <ul className="list-disc pl-5 mt-1 space-y-1">
@@ -175,87 +170,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-/* "use client"
-
-import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-
-const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const { signUp } = useAuth();
-  const router = useRouter();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    
-    if (!email || !password || !displayName) {
-      setError("All fields are required.");
-      setLoading(false);
-      return;
-    }
-    
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      await signUp(email, password, displayName);
-      //router.push("/dashboard");
-    } catch (err) {
-      setError("Failed to sign up. Please try again.");
-    }
-    setLoading(false);
-  };
-
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Display Name"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-            disabled={loading}
-          >
-            {loading ? "Signing Up..." : "Sign Up"}
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-export default SignUp;
- */

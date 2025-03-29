@@ -162,7 +162,6 @@ const MovieDetailsPage = () => {
 
   return (
     <div className="bg-gray-900 min-h-screen text-gray-100">
-      {/* Backdrop Image */}
       <div className="relative h-64 md:h-96 w-full">
         {movie.backdrop_path ? (
           <Image
@@ -202,7 +201,6 @@ const MovieDetailsPage = () => {
 
       <div className="container max-w-6xl py-8">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Left Column - Poster and Actions */}
           <div className="w-full md:w-1/3 lg:w-1/4">
             <div className="relative aspect-[2/3] rounded-lg overflow-hidden shadow-xl">
               <Image
@@ -254,10 +252,7 @@ const MovieDetailsPage = () => {
               </div>
             )}
           </div>
-
-          {/* Right Column - Content */}
           <div className="w-full md:w-2/3 lg:w-3/4">
-            {/* Tabs */}
             <div className="flex border-b border-gray-800 mb-6">
               <button
                 className={`px-4 py-2 font-medium ${activeTab === "overview" ? "text-red-500 border-b-2 border-red-500" : "text-gray-400 hover:text-white"}`}
@@ -273,7 +268,6 @@ const MovieDetailsPage = () => {
               </button>
             </div>
 
-            {/* Tab Content */}
             {activeTab === "overview" ? (
               <>
                 <h2 className="text-xl font-semibold mb-4">Storyline</h2>
