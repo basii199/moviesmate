@@ -50,6 +50,7 @@ export const getPopularMovies = () => fetchMovies("movie/popular");
 export const getTrendingMovies = () => fetchMovies("trending/movie/day");
 export const getTopRatedMovies = () => fetchMovies("movie/top_rated");
 
-export const searchMovies = (query: string) => fetchMovies("search/movie", `&query=${query}`);
+export const searchMovies = (query: string, page: number = 1) => 
+  fetchMovies("search/movie", `&query=${query}&page=${page}`);
 export const getMovieDetails = (id: string) => fetchMovies(`movie/${id}`);
 export const getMovieTrailer = (id: string) => fetchMovies(`movie/${id}/videos`);

@@ -135,15 +135,6 @@ export default function SignInPage() {
             )}
           </div>
 
-          <div className="flex justify-end">
-            <Link 
-              href="/forgot-password" 
-              className="text-sm text-gray-400 hover:text-red-400"
-            >
-              Forgot password?
-            </Link>
-          </div>
-
           <button
             type="submit"
             disabled={loading}
@@ -165,7 +156,7 @@ export default function SignInPage() {
 
         <p className="mt-6 text-center text-sm text-gray-400">
           Don't have an account?{" "}
-          <Link href="/sig-nup" className="text-red-400 hover:text-red-300 font-medium">
+          <Link href="/sign-up" className="text-red-400 hover:text-red-300 font-medium">
             Sign Up
           </Link>
         </p>

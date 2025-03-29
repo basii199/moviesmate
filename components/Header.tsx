@@ -28,7 +28,7 @@ const Header = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
       setSearchOpen(false);
     }
@@ -87,6 +87,7 @@ const Header = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="bg-gray-800 text-white rounded-full py-2 pl-4 pr-10 w-64 focus:outline-none focus:ring-2 focus:ring-red-500"
+              required
             />
             <button 
               type="submit"
@@ -108,11 +109,15 @@ const Header = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 bg-gray-800 text-white rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-red-500"
                 autoFocus
+                required
               />
               <button 
                 type="button"
                 className="ml-2 text-gray-400 hover:text-white"
-                onClick={() => setSearchOpen(false)}
+                onClick={() => {
+                  setSearchOpen(false);
+                  setSearchQuery("");
+                }}
               >
                 <X size={24} />
               </button>

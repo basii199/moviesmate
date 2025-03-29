@@ -1,7 +1,20 @@
-import React from 'react';
+"use client";
+
+import React, { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const HeroSection = () => {
+  const router = useRouter();
+  const [searchText, setSearchText] = useState("");
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (searchText.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchText.trim())}`);
+    }
+  };
+
   return (
     <section className="relative bg-gradient-to-b from-gray-900 to-gray-800 text-white py-20 px-4 sm:px-6 lg:px-8 text-center">
       <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -15,18 +28,26 @@ const HeroSection = () => {
           Browse thousands of movies from TMDB. Find ratings, trailers, and recommendations in one place.
         </p>
         
-        <div className="mb-8 max-w-md mx-auto">
+        <form onSubmit={handleSubmit} className="mb-8 max-w-md mx-auto">
           <div className="flex rounded-lg overflow-hidden shadow-lg">
             <input
               type="text"
               placeholder="Search for movies..."
-              className="flex-grow px-4 py-3 text-gray-100 focus:outline-none border border-r-0 rounded-tl-lg rounded-bl-lg placeholder:text-gray-500"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="flex-grow px-4 py-3 text-gray-100 bg-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500 placeholder:text-gray-500"
+              aria-label="Search movies"
+              required
             />
-            <button className="bg-red-600 hover:bg-red-700 px-6 py-3 font-semibold transition-colors">
+            <button 
+              type="submit"
+              className="bg-red-600 hover:bg-red-700 px-6 py-3 font-semibold transition-colors"
+              aria-label="Submit search"
+            >
               Search
             </button>
           </div>
-        </div>
+        </form>
         
         <Link
           href="/movies"
