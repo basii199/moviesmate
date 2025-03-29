@@ -1,11 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { searchMovies } from "@/lib/tmdb";
 import { MovieGrid } from "@/components/MovieGrid";
 
-export default function SearchMoviesPage() {
+export default function SearchMoviesPage (){
+  return(
+    <Suspense fallback={<div>Please wait...</div>}>
+      <SearchMoviesComponent />
+    </Suspense>
+  )
+}
+
+function SearchMoviesComponent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [movies, setMovies] = useState<any[]>([]);

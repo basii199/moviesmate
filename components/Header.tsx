@@ -11,6 +11,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [openTooltip, setOpenTooltip] = useState(false)
   const { user, loading, getUserDisplayName, signOut } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
@@ -142,7 +143,9 @@ const Header = () => {
           ) : (
             <div className="flex items-center gap-3">
               <div className="relative group">
-                <div className="rounded-full size-10 bg-red-600 flex items-center justify-center hover:bg-red-700 transition-colors cursor-pointer">
+                <button 
+                onClick={()=>{setOpenTooltip(!openTooltip)}}
+                className="rounded-full size-10 bg-red-600 flex items-center justify-center hover:bg-red-700 transition-colors cursor-pointer">
                   {displayName ? (
                     <p className="text-xl font-bold text-white">
                       {displayName.slice(0, 1).toUpperCase()}
@@ -150,8 +153,8 @@ const Header = () => {
                   ) : (
                     <User size={20} className="text-white" />
                   )}
-                </div>
-                <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 invisible group-hover:visible">
+                </button>
+                <div className={`absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 invisible group-hover:visible ${openTooltip? 'visible' : ''}`}>
                   <Link 
                     href="/profile" 
                     className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"

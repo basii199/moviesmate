@@ -35,10 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const {
-          data: { session },
-          error,
-        } = await supabase.auth.getSession();
+        const { data: { session }, error } = await supabase.auth.getSession();
         if (error) throw error;
         setUser(session?.user ?? null);
       } catch (error) {
@@ -50,14 +47,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     checkUser();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
         setUser(session?.user ?? null);
+
+        // Only sync for specific events
+        if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+          try {
+            await fetch('/api/auth/sync', { 
+              method: 'POST',
+              cache: 'no-store'
+            });
+          } catch (error) {
+            console.error('Failed to sync auth state:', error);
+          }
+        }
       }
     );
 
     return () => {
-      authListener.subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, []);
 
@@ -134,7 +143,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };

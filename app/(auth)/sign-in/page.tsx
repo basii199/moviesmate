@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
 import { useSearchParams } from 'next/navigation'
+import Skeleton from "react-loading-skeleton";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -17,7 +18,15 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function SignInPage() {
+export default function SignInPage (){
+  return(
+    <Suspense fallback={<div>Please wait...</div>}>
+      <SignInPageComponent />
+    </Suspense>
+  )
+}
+
+function SignInPageComponent() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
