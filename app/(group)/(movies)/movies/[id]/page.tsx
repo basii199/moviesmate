@@ -65,7 +65,6 @@ const MovieDetailsPage = () => {
         );
         const data = await response.json();
         setMovie(data);
-        console.log(data)
 
         const trailer = data.videos?.results.find(
           (video: { type: string }) => video.type === "Trailer"

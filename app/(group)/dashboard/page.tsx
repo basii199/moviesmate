@@ -38,7 +38,6 @@ export default function DashboardPage() {
           .from(activeTab === "favorites" ? "favorites" : "bookmarks")
           .select("*")
           .eq("userId", user.id);
-        console.log(data)
         setMovies(data?.map((item) => ({
           id: item.movie_id,
           poster_path: item.movie_poster_path,
@@ -47,7 +46,6 @@ export default function DashboardPage() {
           title: item.movie_title,
         })) || []);
       } catch (error) {
-        console.log(movies)
         console.error("Error fetching user data:", error);
         toast.error("Failed to load your data");
       } finally {
@@ -57,8 +55,6 @@ export default function DashboardPage() {
 
     fetchUserData();
   }, [user, activeTab]);
-
-  console.log(movies)
 
   useEffect(() => {
     if (user) {
