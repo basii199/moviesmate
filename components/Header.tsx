@@ -166,9 +166,15 @@ const Header = () => {
                   >
                     Profile
                   </Link>
+                  <Link 
+                    href="/dashboard" 
+                    className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    Dashboard
+                  </Link>
                   <button
                     onClick={handleSignOut}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+                    className="w-full text-left font-semibold px-4 py-2 text-sm text-red-600 hover:bg-gray-700 hover:text-red-700"
                   >
                     Sign Out
                   </button>
@@ -204,12 +210,19 @@ const Header = () => {
                   >
                     Profile
                   </Link>
+                  <Link
+                    href="/dashboard"
+                    className="px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
                   <button
                     onClick={() => {
                       handleSignOut();
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"
+                    className="w-full text-left font-semibold px-4 py-3 rounded-lg bg-red-600 text-gray-300 hover:bg-red-700 hover:text-white"
                   >
                     Sign Out
                   </button>
