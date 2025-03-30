@@ -36,11 +36,18 @@ export default function DashboardPage() {
 
         const { data } = await supabase
           .from(activeTab === "favorites" ? "favorites" : "bookmarks")
-          .select("movie_data")
-          .eq("user_id", user.id);
-
-        setMovies(data?.map((item) => item.movie_data) || []);
+          .select("*")
+          .eq("userId", user.id);
+        console.log(data)
+        setMovies(data?.map((item) => ({
+          id: item.movie_id,
+          poster_path: item.movie_poster_path,
+          release_date: item.movie_release_date,
+          vote_average: parseInt(item.movie_vote_average),
+          title: item.movie_title,
+        })) || []);
       } catch (error) {
+        console.log(movies)
         console.error("Error fetching user data:", error);
         toast.error("Failed to load your data");
       } finally {
@@ -50,6 +57,8 @@ export default function DashboardPage() {
 
     fetchUserData();
   }, [user, activeTab]);
+
+  console.log(movies)
 
   useEffect(() => {
     if (user) {
@@ -66,7 +75,7 @@ export default function DashboardPage() {
       await supabase
         .from(activeTab === "favorites" ? "favorites" : "bookmarks")
         .delete()
-        .match({ user_id: user?.id, movie_id: movieId });
+        .match({ userId: user?.id, movie_id: movieId });
 
       setMovies(movies.filter((movie) => movie.id !== movieId));
       toast.success(`Removed from ${activeTab}`);
@@ -148,8 +157,8 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {movies.map((movie) => (
-              <div key={movie.id} className="group relative">
+            {movies.map((movie, index) => (
+              <div key={index} className="group relative">
                 <MovieCard movie={movie} />
                 <button
                   onClick={() => removeFromList(movie.id)}

@@ -38,13 +38,24 @@ interface MovieDetails {
 const MovieDetailsPage = () => {
   const { id } = useParams();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, getUserUID } = useAuth();
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [trailerKey, setTrailerKey] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [activeTab, setActiveTab] = useState<"overview" | "cast">("overview");
+  const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      const fetchDisplayName = async () => {
+        const name = await getUserUID();
+        setUserId(name);
+      };
+      fetchDisplayName();
+    }
+  }, [user, getUserUID]);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -54,6 +65,7 @@ const MovieDetailsPage = () => {
         );
         const data = await response.json();
         setMovie(data);
+        console.log(data)
 
         const trailer = data.videos?.results.find(
           (video: { type: string }) => video.type === "Trailer"
@@ -77,15 +89,14 @@ const MovieDetailsPage = () => {
           supabase
             .from("favorites")
             .select("id")
-            .eq("user_id", user.id)
+            .eq("userId", userId)
             .eq("movie_id", id),
           supabase
             .from("bookmarks")
             .select("id")
-            .eq("user_id", user.id)
+            .eq("userId", user.id)
             .eq("movie_id", id)
         ]);
-
         setIsFavorite(favoriteData ? favoriteData.length > 0 : false);
         setIsBookmarked(bookmarkData ? bookmarkData.length > 0 : false);
         
@@ -106,14 +117,16 @@ const MovieDetailsPage = () => {
 
     try {
       if (isFavorite) {
-        await supabase.from("favorites").delete().match({ user_id: user.id, movie_id: id });
+        await supabase.from("favorites").delete().match({ userId: userId, movie_id: id });
         toast.success("Removed from favorites");
       } else {
         await supabase.from("favorites").insert({
-          user_id: user.id,
           movie_id: movie?.id,
-          title: movie?.title,
-          poster_path: movie?.poster_path,
+          movie_title: movie?.title,
+          movie_poster_path: movie?.poster_path,
+          movie_release_date: movie?.release_date,
+          movie_vote_average: movie?.vote_average,
+          userId: userId,
         });
         toast.success("Added to favorites");
       }
@@ -132,14 +145,16 @@ const MovieDetailsPage = () => {
 
     try {
       if (isBookmarked) {
-        await supabase.from("bookmarks").delete().match({ user_id: user.id, movie_id: id });
+        await supabase.from("bookmarks").delete().match({ userId: userId, movie_id: id });
         toast.success("Removed bookmark");
       } else {
         await supabase.from("bookmarks").insert({
-          user_id: user.id,
           movie_id: movie?.id,
-          title: movie?.title,
-          poster_path: movie?.poster_path,
+          movie_title: movie?.title,
+          movie_poster_path: movie?.poster_path,
+          movie_release_date: movie?.release_date,
+          movie_vote_average: movie?.vote_average,
+          userId: userId,
         });
         toast.success("Movie bookmarked");
       }

@@ -8,6 +8,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   getUserDisplayName: () => Promise<string>;
+  getUserUID: () => Promise<string>;
   signUp: (
     email: string,
     password: string,
@@ -21,6 +22,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
   getUserDisplayName: async () => "",
+  getUserUID: async () => "",
   signUp: async () => ({}),
   signIn: async () => ({}),
   signOut: async () => ({}),
@@ -83,10 +85,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const getUserUID = async (): Promise<string> => {
+    if (!user) return "Guest";
+
+    try {
+        const { data, error } = await supabase.auth.getUser();
+        if (error) throw error;
+        return data.user?.id || "Unknown UID"; // Getting the UID instead of displayName
+    } catch (error) {
+        console.error("Error getting user UID:", error);
+        return "Guest";
+    }
+  };
+
+
   const value = {
     user,
     loading,
     getUserDisplayName,
+    getUserUID,
     signUp: async (email: string, password: string, displayName: string) => {
       setLoading(true);
       try {

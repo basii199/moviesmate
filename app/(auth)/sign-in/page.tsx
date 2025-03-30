@@ -53,7 +53,6 @@ function SignInPageComponent() {
       router.push(redirectTo)
     } catch (err: any) {
       const errorCode = err.code || "";
-      console.log(`this is ${err}`)
       handleAuthError(err);
     } finally {
       setLoading(false);
