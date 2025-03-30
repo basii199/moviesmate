@@ -35,6 +35,11 @@ const Header = () => {
     }
   };
 
+  function handleSignOut () {
+    signOut();
+    router.push("/");
+  }
+
   const navLinks = [
     { href: "/popular", label: "Popular" },
     { href: "/trending", label: "Trending" },
@@ -162,7 +167,7 @@ const Header = () => {
                     Profile
                   </Link>
                   <button
-                    onClick={signOut}
+                    onClick={handleSignOut}
                     className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
                   >
                     Sign Out
@@ -201,7 +206,7 @@ const Header = () => {
                   </Link>
                   <button
                     onClick={() => {
-                      signOut();
+                      handleSignOut();
                       setMobileMenuOpen(false);
                     }}
                     className="w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"

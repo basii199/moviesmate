@@ -12,9 +12,11 @@ const Page = () => {
       <Header />
       <div className="w-full h-20"></div>
       <HeroSection />
-      <TrendingMovies />
-      <PopularMovies />
-      <TopRatedMovies />
+      <div id='movies' className='w-full flex flex-col'>
+        <TrendingMovies />
+        <PopularMovies />
+        <TopRatedMovies />
+      </div>
       <Footer />
     </div>
   )

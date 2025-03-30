@@ -160,6 +160,15 @@ const MovieDetailsPage = () => {
   if (loading) return <MovieDetailsSkeleton />;
   if (!movie) return <div className="text-center mt-10">Movie not found</div>;
 
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4">
+        <h2 className="text-2xl font-bold mb-4">Please sign in to view movie details</h2>
+        <Button onClick={() => window.location.href = "/sign-in"}>Sign In</Button>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gray-900 min-h-screen text-gray-100">
       <div className="relative h-64 md:h-96 w-full">

@@ -103,7 +103,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return {};
       } catch (error: any) {
         console.error("Sign up error:", error);
-        return { error: error.message };
+        throw error.message;
+        //return { error: error.message };
       } finally {
         setLoading(false);
       }
@@ -120,7 +121,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return {};
       } catch (error: any) {
         console.error("Sign in error:", error);
-        return { error: error.message };
+        throw error.message;
+        //return { error: error.message };
       } finally {
         setLoading(false);
       }

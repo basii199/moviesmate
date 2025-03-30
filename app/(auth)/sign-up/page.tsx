@@ -49,11 +49,11 @@ const SignUp = () => {
     
     try {
       await signUp(data.email, data.password, data.displayName);
-      router.push("/");
     } catch (err) {
       setError("Failed to create account. Please try again.");
     } finally {
       setLoading(false);
+      router.push("/");
     }
   };
 

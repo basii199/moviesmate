@@ -33,7 +33,7 @@ function SignInPageComponent() {
   const { signIn } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirect') || '/dashboard'
+  const redirectTo = searchParams.get('redirect') || '/'
 
   const {
     register,
@@ -50,10 +50,11 @@ function SignInPageComponent() {
     
     try {
       await signIn(data.email, data.password);
-      router.push(redirectTo);
+      router.push(redirectTo)
     } catch (err: any) {
       const errorCode = err.code || "";
-      handleAuthError(errorCode);
+      console.log(`this is ${err}`)
+      handleAuthError(err);
     } finally {
       setLoading(false);
     }
@@ -61,7 +62,7 @@ function SignInPageComponent() {
   
   const handleAuthError = (errorCode: string) => {
     const errorMessages: Record<string, string> = {
-      "auth/invalid-credential": "Invalid email or password",
+      "Invalid login credentials": "Invalid email or password",
       "auth/user-not-found": "No account found with this email",
       "auth/wrong-password": "Incorrect password",
       "auth/too-many-requests": "Account temporarily locked due to too many attempts",

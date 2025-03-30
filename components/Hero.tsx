@@ -50,7 +50,7 @@ const HeroSection = () => {
         </form>
         
         <Link
-          href="/movies"
+          href="/#movies"
           className="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-colors shadow-lg"
         >
           Explore Movies Now
