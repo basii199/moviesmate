@@ -61,14 +61,15 @@ const MovieDetailsPage = () => {
     const fetchMovieDetails = async () => {
       try {
         const response = await fetch(
-          `${BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=videos,credits`
+          `${BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=videos,credits`,
         );
         const data = await response.json();
         setMovie(data);
 
-        const trailer = data.videos?.results.find(
-          (video: { type: string }) => video.type === "Trailer"
-        ) || data.videos?.results[0];
+        const trailer =
+          data.videos?.results.find(
+            (video: { type: string }) => video.type === "Trailer",
+          ) || data.videos?.results[0];
         if (trailer) {
           setTrailerKey(trailer.key);
         }
@@ -84,21 +85,21 @@ const MovieDetailsPage = () => {
       if (!user) return;
 
       try {
-        const [{ data: favoriteData }, { data: bookmarkData }] = await Promise.all([
-          supabase
-            .from("favorites")
-            .select("id")
-            .eq("userId", userId)
-            .eq("movie_id", id),
-          supabase
-            .from("bookmarks")
-            .select("id")
-            .eq("userId", user.id)
-            .eq("movie_id", id)
-        ]);
+        const [{ data: favoriteData }, { data: bookmarkData }] =
+          await Promise.all([
+            supabase
+              .from("favorites")
+              .select("id")
+              .eq("userId", userId)
+              .eq("movie_id", id),
+            supabase
+              .from("bookmarks")
+              .select("id")
+              .eq("userId", user.id)
+              .eq("movie_id", id),
+          ]);
         setIsFavorite(favoriteData ? favoriteData.length > 0 : false);
         setIsBookmarked(bookmarkData ? bookmarkData.length > 0 : false);
-        
       } catch (error) {
         console.error("Error checking favorites/bookmarks:", error);
       }
@@ -116,7 +117,10 @@ const MovieDetailsPage = () => {
 
     try {
       if (isFavorite) {
-        await supabase.from("favorites").delete().match({ userId: userId, movie_id: id });
+        await supabase
+          .from("favorites")
+          .delete()
+          .match({ userId: userId, movie_id: id });
         toast.success("Removed from favorites");
       } else {
         await supabase.from("favorites").insert({
@@ -144,7 +148,10 @@ const MovieDetailsPage = () => {
 
     try {
       if (isBookmarked) {
-        await supabase.from("bookmarks").delete().match({ userId: userId, movie_id: id });
+        await supabase
+          .from("bookmarks")
+          .delete()
+          .match({ userId: userId, movie_id: id });
         toast.success("Removed bookmark");
       } else {
         await supabase.from("bookmarks").insert({
@@ -177,8 +184,12 @@ const MovieDetailsPage = () => {
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4">
-        <h2 className="text-2xl font-bold mb-4">Please sign in to view movie details</h2>
-        <Button onClick={() => window.location.href = "/sign-in"}>Sign In</Button>
+        <h2 className="text-2xl font-bold mb-4">
+          Please sign in to view movie details
+        </h2>
+        <Button onClick={() => (window.location.href = "/sign-in")}>
+          Sign In
+        </Button>
       </div>
     );
   }
@@ -197,20 +208,20 @@ const MovieDetailsPage = () => {
         ) : (
           <div className="absolute inset-0 bg-gray-800" />
         )}
-        
+
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent h-32" />
-        
-        <div className="container relative z-10 h-full flex flex-col justify-end pb-8">
-          <Button 
-            variant="ghost" 
+
+        <div className="container relative z-10 h-full flex flex-col justify-end pb-8 mx-auto">
+          <Button
+            variant="ghost"
             className="absolute top-4 left-4 w-10 h-10 p-0 rounded-full bg-gray-800 hover:bg-gray-700"
             onClick={() => router.back()}
           >
             <ChevronLeft className="h-5 w-5" />
           </Button>
-          
+
           <h1 className="text-3xl md:text-5xl font-bold mb-2">{movie.title}</h1>
-          
+
           <div className="flex items-center gap-4 text-sm md:text-base">
             <span>{new Date(movie.release_date).getFullYear()}</span>
             {movie.runtime && <span>{formatRuntime(movie.runtime)}</span>}
@@ -222,7 +233,7 @@ const MovieDetailsPage = () => {
         </div>
       </div>
 
-      <div className="container max-w-6xl py-8">
+      <div className="container max-w-6xl py-8 mx-auto">
         <div className="flex flex-col md:flex-row gap-8">
           <div className="w-full md:w-1/3 lg:w-1/4">
             <div className="relative aspect-[2/3] rounded-lg overflow-hidden shadow-xl">
@@ -238,33 +249,39 @@ const MovieDetailsPage = () => {
                 priority
               />
             </div>
-            
+
             <div className="mt-4 flex gap-2">
               <Button
                 variant={isFavorite ? "passive" : "active"}
                 className="flex-1 gap-2"
                 onClick={toggleFavorite}
               >
-                <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
+                <Heart
+                  className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`}
+                />
                 {isFavorite ? "Favorited" : "Favorite"}
               </Button>
-              
+
               <Button
                 variant={isBookmarked ? "passive" : "active"}
                 className="flex-1 gap-2"
                 onClick={toggleBookmark}
               >
-                <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`} />
+                <Bookmark
+                  className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`}
+                />
                 {isBookmarked ? "Saved" : "Save"}
               </Button>
             </div>
-            
+
             {movie.genres && (
               <div className="mt-4">
-                <h3 className="text-sm font-semibold text-gray-400 mb-2">Genres</h3>
+                <h3 className="text-sm font-semibold text-gray-400 mb-2">
+                  Genres
+                </h3>
                 <div className="flex flex-wrap gap-2">
                   {movie.genres.map((genre) => (
-                    <span 
+                    <span
                       key={genre.id}
                       className="px-3 py-1 bg-gray-800 rounded-full text-sm"
                     >
@@ -294,8 +311,10 @@ const MovieDetailsPage = () => {
             {activeTab === "overview" ? (
               <>
                 <h2 className="text-xl font-semibold mb-4">Storyline</h2>
-                <p className="text-gray-300 leading-relaxed">{movie.overview}</p>
-                
+                <p className="text-gray-300 leading-relaxed">
+                  {movie.overview}
+                </p>
+
                 {trailerKey && (
                   <div className="mt-8">
                     <h2 className="text-xl font-semibold mb-4">Trailer</h2>
@@ -330,7 +349,7 @@ const MovieDetailsPage = () => {
                           className="object-cover"
                         />
                       ) : (
-                        ''
+                        ""
                       )}
                     </div>
                     <h3 className="font-medium">{person.name}</h3>
@@ -352,8 +371,8 @@ const MovieDetailsSkeleton = () => {
       <div className="relative h-64 md:h-96 w-full bg-gray-800">
         <Skeleton className="absolute bottom-8 left-8 h-12 w-3/4" />
       </div>
-      
-      <div className="container max-w-6xl py-8">
+
+      <div className="container max-w-6xl py-8 mx-auto">
         <div className="flex flex-col md:flex-row gap-8">
           <div className="w-full md:w-1/3 lg:w-1/4">
             <Skeleton className="aspect-[2/3] rounded-lg" />
@@ -362,13 +381,13 @@ const MovieDetailsSkeleton = () => {
               <Skeleton className="h-10 flex-1" />
             </div>
           </div>
-          
+
           <div className="w-full md:w-2/3 lg:w-3/4">
             <div className="flex gap-4 mb-6">
               <Skeleton className="h-10 w-24" />
               <Skeleton className="h-10 w-24" />
             </div>
-            
+
             <div className="space-y-3">
               <Skeleton className="h-6 w-1/4" />
               <Skeleton className="h-4 w-full" />
